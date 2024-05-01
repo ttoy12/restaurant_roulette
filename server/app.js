@@ -8,11 +8,8 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 //??
 const {Pool} = require("pg");
-
 //jwt tokens timouts 
 const jwt = require("jsonwebtoken");
-
-
 const cors = require('cors');
 
 
@@ -62,13 +59,11 @@ app.post("v0/login", async (req, res)=>{
         res.json({token});
     } catch(error){
         console.error(error.message);
-        res.status(500).send("S_E")
+        res.status(500).send("Server_Error")
     }
 })
 
-
 //Middleware to verify JWT token 
-
 function verifyToken(req,res,next){
     const token = req.headers.authorization && req.headers.authorization.split(" ")[1];
     if(!token){
