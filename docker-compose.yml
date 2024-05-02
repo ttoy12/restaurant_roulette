@@ -1,13 +1,29 @@
 version: '3.8'
 services:
-  web:
+  api:
+    build:
+      context: . # Set this to the directory containing `package.json`
+      dockerfile: ./server/Dockerfile 
+    ports:
+      - "3306:3306"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - .:/restaurant_roulette
+      - /restaurant_roulette/node_modules
+    depends_on:
+      - db
+  frontend:
     build: .
     ports:
       - "3010:3010"
     environment:
       - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - .:/restaurant_roulette
+      - /restaurant_roulette/node_modules
     depends_on:
-      - db
+      - api
   db:
     image: postgres:latest
     restart: always
@@ -17,6 +33,7 @@ services:
       POSTGRES_PASSWORD: 30For30!
     volumes:
       - mydbdata:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql #mount the innitializing schema for users and mockdata for users
     ports:
       - "5433:5432"
 

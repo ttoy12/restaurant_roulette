@@ -18,6 +18,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, 'build')));
+
 const pool = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -25,7 +27,6 @@ const pool = new Pool({
     port: process.env.DB_PORT,
     database: process.env.DB_NAME
 });
-
 app.post("v0/register", async (req, res)=>{
     try {
         const {username, email, password} = req.body;
