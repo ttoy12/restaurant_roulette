@@ -10,7 +10,7 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault(); // Prevent form from submitting traditionally
         try {
-            const response = await axios.post('http://localhost:3306/v0/login', {
+            const response = await axios.post('http://localhost:3000/v0/login', {
                 email: email,
                 password: password
             });

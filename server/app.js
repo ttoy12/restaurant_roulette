@@ -19,14 +19,17 @@ app.use(cors());
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'build')));
-
+app.use(express.urlencoded({ extended: true }));
 const pool = new Pool({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    database: process.env.DB_NAME
+    database: process.env.POSTGRES_DB
 });
+app.get("/", (req, res) => { 
+    res.send("<h1> Server Side Code</h1>"); 
+  }); 
 app.post("v0/register", async (req, res)=>{
     try {
         const {username, email, password} = req.body;
