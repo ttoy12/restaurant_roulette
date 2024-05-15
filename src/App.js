@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { AuthProvider } from './contexts/AuthContext';
-import Login from './components/Login';
+import Wheel from './components/Wheel';
+// import { AuthProvider } from './contexts/AuthContext';
+// import Login from './components/Login';
 
 
 function App() 
 {
   return (
-    <AuthProvider>
       <div>
-        <Login/>
+        <div>hello</div>
+        <Wheel/>
       </div>
-    </AuthProvider>
   );
 }
 
