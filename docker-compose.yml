@@ -1,0 +1,46 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - .:/app 
+      - /app/node_modules
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./src/Dockerfile
+    ports:
+      - "3010:3010"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - .:/app 
+      - /app/node_modules
+    depends_on:
+      - api
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: restapi
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 28Zero5!
+    volumes:
+      - mydbdata:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5433:5432"
+
+volumes:
+  mydbdata:
