@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import React from 'react'
-
-import { Box, Typography,Button } from '@mui/material';
+import { Box,Button, Menu, MenuItem } from '@mui/material';
 
 const Selection = () => 
 {
+  //List of all the diff cuisins
   const [selectedButtons, setSelectedButtons] = useState([]);
+
+  //for the drop down Menu 
+  const [anchorEl, setAnchorEl] = useState(null);
   
+  //cuisine type handler
   const handleButtonClick = (button) => {
     if (button === 'Any' || button === 'More') {
       setSelectedButtons([button]);
@@ -23,10 +27,22 @@ const Selection = () =>
         }
       });
     }
-    console.log(selectedButtons);
+  };
+
+  //drop down menu 
+  const handleDropDownClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    console.log(anchorEl);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const isButtonSelected = (button) => selectedButtons.includes(button);
+  const handleSubmission = ()=>{
+    //api calls???
+  }
 
   return  (
   <Box
@@ -68,6 +84,27 @@ const Selection = () =>
     >
       More
     </Button>
+    <Button
+        aria-controls="Price"
+        aria-haspopup="true"
+        onClick={handleDropDownClick}
+      >
+        Price
+    </Button>
+    <Menu
+        id="Price"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleDropDownClick}
+      >
+        <MenuItem onClick={handleClose}>$</MenuItem>
+        <MenuItem onClick={handleClose}>$$</MenuItem>
+        <MenuItem onClick={handleClose}>$$$</MenuItem>
+      </Menu>
+  </Box>
+  <Box>
+    <Button color='inherit' onClick={handleSubmission} >Submit</Button>
   </Box>
 </Box>
 );
